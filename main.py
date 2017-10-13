@@ -1,7 +1,8 @@
+import n64
+import os
 import tornado.gen
 import tornado.ioloop
 import tornado.web
-import n64
 from mysql import mysql_pool
 
 _host = "http://localhost/"
@@ -26,7 +27,7 @@ class HandlerURL_l(tornado.web.RequestHandler):
                 self.finish()
 
     def get(self):
-        self.redirect("https://www.baidu.com", permanent=True)
+        self.render("template/index.html")
 
 
 class HandlerURL(tornado.web.RequestHandler):
@@ -48,11 +49,14 @@ class HandlerURL(tornado.web.RequestHandler):
 
 
 def make_app():
+    settings = {
+        "static_path": os.path.join(os.path.dirname(__file__), "static"),
+        "debug": True
+    }
     return tornado.web.Application([
         ("/([0-9a-zA-Z_-]+)", HandlerURL),
         ("/", HandlerURL_l),
-
-    ], debug=True)
+    ], **settings)
 
 
 if __name__ == "__main__":
