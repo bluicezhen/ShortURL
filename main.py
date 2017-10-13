@@ -1,21 +1,10 @@
 import tornado.gen
 import tornado.ioloop
 import tornado.web
-import tormysql
 import n64
+from mysql import mysql_pool
 
 _host = "http://localhost/"
-
-mysql_pool = tormysql.ConnectionPool(
-    max_connections=20,  # max open connections
-    idle_seconds=7200,  # conntion idle timeout time, 0 is not timeout
-    wait_connection_timeout=3,  # wait connection timeout
-    host="localhost",
-    user="root",
-    passwd="123456",
-    db="123",
-    charset="utf8"
-)
 
 io_loop = tornado.ioloop.IOLoop.instance()
 
