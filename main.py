@@ -1,3 +1,4 @@
+import json
 import n64
 import os
 import tornado.gen
@@ -5,7 +6,7 @@ import tornado.ioloop
 import tornado.web
 from mysql import mysql_pool
 
-_host = "http://localhost/"
+_host = "http://localhost:8888/"
 
 io_loop = tornado.ioloop.IOLoop.instance()
 
@@ -13,13 +14,18 @@ io_loop = tornado.ioloop.IOLoop.instance()
 class HandlerURL_l(tornado.web.RequestHandler):
     @tornado.gen.coroutine
     def post(self):
-        url = "http://www.zhen37.me2"
+        self.set_header('Content-Type', 'application/javascript')
+        try:
+            url = json.loads(self.request.body.decode('utf-8'))["url"]
+        except KeyError:
+            self.send_error(400)
         with (yield mysql_pool.Connection()) as conn:
             try:
                 with conn.cursor() as cursor:
                     yield cursor.execute(f"INSERT INTO url (url) VALUES ('{ url }')")
+                    yield cursor.execute("SELECT LAST_INSERT_ID()")
                     url_id = cursor.fetchone()[0]
-                    self.write(_host + n64.encode(url_id))
+                    self.write(json.dumps({"short_url": _host + n64.encode(url_id)}))
                     yield conn.commit()
             except Exception as e:
                 print(e)

@@ -43,13 +43,13 @@ a {
 
 /* For Mobile */
 @media screen and (max-width: 1000px) {
-    .up > .content > form {
+    .up > .content > div {
         display: flex;
         flex-flow: wrap;
         justify-content: space-between;
     }
 
-    .up > .content > form > .in {
+    .up > .content > div > .in {
         height: 25px;
         border-radius: 0;
         border: 1px solid #DDD;
@@ -58,7 +58,7 @@ a {
         -webkit-appearance: none;
     }
 
-    .up > .content > form > .sub {
+    .up > .content > div > .sub {
         margin: auto 0;
         height: 29px;
         border-radius: 0;
@@ -71,7 +71,7 @@ a {
 
 /* For Pad and PC */
 @media screen and (min-width: 1001px) {
-    .up > .content > form > .in {
+    .up > .content > div > .in {
         width: 500px;
         height: 25px;
         border-radius: 0;
@@ -79,7 +79,7 @@ a {
         padding-left: 7px;
     }
 
-    .up > .content > form > .sub {
+    .up > .content > div > .sub {
         height: 29px;
         border-radius: 0;
         border: 1px solid #DDD;
