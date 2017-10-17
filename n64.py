@@ -2,11 +2,14 @@ _CS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz_-"
 
 
 def encode(n: int):
+    def _cal(s: str):
+        c = _CS[int(s[len(s) - 6:len(s)], 2)]
+        if len(s) > 6:
+            return _cal(s[0:len(s) - 6]) + c
+        return c
+
     n_2 = bin(n)[2:]
-    n_64 = ""
-    for i in range(len(n_2), -1, -6):
-        n_64 = _CS[int(n_2[i - 5 if i - 5 >= 0 else 0:i], 2)] + n_64
-    return n_64
+    return _cal(n_2)
 
 
 def decode(ss: str):
@@ -20,5 +23,5 @@ def decode(ss: str):
 
 
 if __name__ == "__main__":
-    encode(4096)
-    decode("100")
+    print(encode(128))
+    print(decode("1-"))
