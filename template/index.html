@@ -18,9 +18,9 @@
     </div>
 </div>
 <div class="down">
-
+    <p><b>Your Short URL: </b><a id="short-url" href="" target="_blank"></a></p>
 </div>
-<a class="github" href="https://github.com/bluicezhen/ShortURL">
+<a class="github" href="https://github.com/bluicezhen/ShortURL" target="_blank">
     Power by <span class="fa fa-github" aria-hidden="true"></span> ShortURL
 </a>
 <script src="https://cdn.bootcss.com/axios/0.16.2/axios.min.js"></script>
@@ -29,9 +29,14 @@
         axios.post('/', {
             'url': document.getElementById('full-url').value
         }).then(function (response) {
-            console.log(response);
+            var short_url = response.data.short_url;
+            var e_p = document.getElementById('short-url');
+            e_p.href = short_url;
+            e_p.innerText = short_url;
+            e_p.parentElement.style.display = 'block';
         }).catch(function (error) {
             console.log(error);
+            alert('Error');
         });
     };
 </script>

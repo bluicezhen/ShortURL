@@ -41,6 +41,14 @@ a {
     font-size: 1.2em;
 }
 
+.down {
+    text-align: center;
+}
+
+.down > p {
+    display: none;
+}
+
 /* For Mobile */
 @media screen and (max-width: 1000px) {
     .up > .content > div {
