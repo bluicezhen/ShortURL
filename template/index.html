@@ -12,7 +12,7 @@
     <div class="content">
         <h1>Bluice Short Url Service</h1>
         <div>
-            <input id="full-url" class="in" type="text" placeholder="Input full URL here">
+            <input id="full-url" class="in" type="text" placeholder="Input full URL here, like: https://www.google.com">
             <button class="sub" onclick="makeSU()">Make Short</button>
         </div>
     </div>
@@ -26,8 +26,14 @@
 <script src="https://cdn.bootcss.com/axios/0.16.2/axios.min.js"></script>
 <script>
     var makeSU = function () {
+        var url = document.getElementById('full-url').value;
+        var matcher = /^(?:\w+:)?\/\/([^\s\.]+\.\S{2}|localhost[\:?\d]*)\S*$/;
+        if (!matcher.test(url)) {
+            alert("Illegal URL");
+            return;
+        }
         axios.post('/', {
-            'url': document.getElementById('full-url').value
+            'url': url
         }).then(function (response) {
             var short_url = response.data.short_url;
             var e_p = document.getElementById('short-url');
