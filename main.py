@@ -1,9 +1,11 @@
 import json
-import n64
 import os
+
 import tornado.gen
 import tornado.ioloop
 import tornado.web
+
+from lib import n64
 from mysql import mysql_pool
 
 _host = "http://localhost:8888/"
