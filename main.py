@@ -6,7 +6,7 @@ import tornado.ioloop
 import tornado.web
 
 from lib import n64
-from mysql import mysql_pool
+from lib.mysql import mysql_pool
 
 _host = "http://localhost:8888/"
 
