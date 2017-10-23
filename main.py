@@ -1,60 +1,10 @@
-import json
 import os
 import tornado.gen
 import tornado.ioloop
 import tornado.web
-from lib import n64
-from lib.mysql import mysql_pool
-if os.path.exists("env_dev"):
-    from conf_dev import conf
-else:
-    from conf import conf
+from handler import HandlerURL, HandlerURL_l
 
-_host = conf["host"]
 io_loop = tornado.ioloop.IOLoop.instance()
-
-
-class HandlerURL_l(tornado.web.RequestHandler):
-    @tornado.gen.coroutine
-    def post(self):
-        self.set_header('Content-Type', 'application/javascript')
-        try:
-            url = json.loads(self.request.body.decode('utf-8'))["url"]
-        except KeyError:
-            self.send_error(400)
-        with (yield mysql_pool.Connection()) as conn:
-            try:
-                with conn.cursor() as cursor:
-                    yield cursor.execute(f"INSERT INTO url (url) VALUES ('{ url }')")
-                    yield cursor.execute("SELECT LAST_INSERT_ID()")
-                    url_id = cursor.fetchone()[0]
-                    self.write(json.dumps({"short_url": _host + n64.encode(url_id)}))
-                    yield conn.commit()
-            except Exception as e:
-                print(e)
-                yield conn.rollback()
-                self.finish()
-
-    def get(self):
-        self.render("template/index.html")
-
-
-class HandlerURL(tornado.web.RequestHandler):
-    @tornado.gen.coroutine
-    def get(self, n_64):
-        with (yield mysql_pool.Connection()) as conn:
-            try:
-                with conn.cursor() as cursor:
-                    yield cursor.execute(f"SELECT url FROM url WHERE id = { n64.decode(n_64) }")
-                    url = cursor.fetchone()
-                    if url:
-                        self.redirect(url[0], permanent=True)
-                    else:
-                        self.send_error(404)
-            except Exception as e:
-                print(e)
-                yield conn.rollback()
-                self.finish()
 
 
 def make_app():
