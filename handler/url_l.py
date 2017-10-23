@@ -35,4 +35,4 @@ class HandlerURL_l(tornado.web.RequestHandler):
                 self.finish()
 
     def get(self):
-        self.render("template/index.html")
+        self.render("../template/index.html")
