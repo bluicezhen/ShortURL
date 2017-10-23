@@ -1,15 +1,16 @@
 import json
 import os
-
 import tornado.gen
 import tornado.ioloop
 import tornado.web
-
 from lib import n64
 from lib.mysql import mysql_pool
+if os.path.exists("env_dev"):
+    from conf_dev import conf
+else:
+    from conf import conf
 
-_host = "http://localhost:8888/"
-
+_host = conf["host"]
 io_loop = tornado.ioloop.IOLoop.instance()
 
 

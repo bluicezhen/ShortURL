@@ -9,9 +9,9 @@ A Simply and high-performance ShortURL Server by Python3.6
 pip install -r requirements.txt
 ```
 
-#### 2. Configure Mysql
+#### 2. Configure
 
-You should change `mysql.py`
+You should change `conf.py` to configure mysql and server host.
 
 #### 3. Run
 
