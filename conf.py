@@ -1,5 +1,6 @@
 conf = {
     "host": "http://localhost:8888/",
+    "listen": 80,
     "mysql": {
         "host": "localhost",
         "port": 3306,

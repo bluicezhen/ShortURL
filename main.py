@@ -4,6 +4,10 @@ import tornado.ioloop
 import tornado.web
 from handler import HandlerURL, HandlerURL_l
 
+if os.path.exists("env_dev"):
+    from conf_dev import conf
+else:
+    from conf import conf
 io_loop = tornado.ioloop.IOLoop.instance()
 
 
@@ -20,5 +24,5 @@ def make_app():
 
 if __name__ == "__main__":
     app = make_app()
-    app.listen(8888, address="0.0.0.0")
+    app.listen(conf["listen"], address="0.0.0.0")
     io_loop.start()
