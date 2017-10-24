@@ -13,7 +13,6 @@ io_loop = tornado.ioloop.IOLoop.instance()
 
 def make_app():
     settings = {
-        "static_path": os.path.join(os.path.dirname(__file__), "static"),
         "debug": True
     }
     return tornado.web.Application([

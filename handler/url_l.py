@@ -33,6 +33,3 @@ class HandlerURL_l(tornado.web.RequestHandler):
                 print(e)
                 yield conn.rollback()
                 self.finish()
-
-    def get(self):
-        self.render("../template/index.html")
