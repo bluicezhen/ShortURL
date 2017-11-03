@@ -16,17 +16,17 @@ _host = conf["host"]
 class HandlerURL_l(tornado.web.RequestHandler):
     def set_default_headers(self):
         self.set_header("Access-Control-Allow-Origin", "*")
-        self.set_header("Access-Control-Allow-Headers", "x-requested-with")
-        self.set_header('Access-Control-Allow-Methods', ' POST, OPTIONS')
+        self.set_header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
+        self.set_header('Access-Control-Allow-Methods', 'POST, OPTIONS')
 
     def options(self):
-        self.set_status(204)
+        self.set_status(200)
         self.finish()
 
     @tornado.gen.coroutine
     def post(self):
         self.set_header("Access-Control-Allow-Origin", "*")
-        self.set_header('Content-Type', 'application/javascript')
+        self.set_header('Content-Type', 'application/json; charset=utf-8')
         try:
             url = json.loads(self.request.body.decode('utf-8'))["url"]
         except KeyError:
