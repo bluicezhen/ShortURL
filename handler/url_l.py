@@ -16,7 +16,7 @@ _host = conf["host"]
 class HandlerURL_l(tornado.web.RequestHandler):
     def set_default_headers(self):
         self.set_header("Access-Control-Allow-Origin", "*")
-        self.set_header("Access-Control-Allow-Headers", "*")
+        self.set_header("Access-Control-Allow-Headers", "content-type")
         self.set_header('Access-Control-Allow-Methods', 'POST, OPTIONS')
 
     def options(self):
