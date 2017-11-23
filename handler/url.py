@@ -18,11 +18,19 @@ class HandlerURL(tornado.web.RequestHandler):
     def get(self, n_64):
         self.set_header("Access-Control-Allow-Origin", "*")
         with (yield mysql_pool.Connection()) as conn:
+            url_id = n64.decode(n_64)
+            client_ip = self.request.remote_ip
             try:
                 with conn.cursor() as cursor:
-                    yield cursor.execute(f"SELECT url FROM url WHERE id = { n64.decode(n_64) }")
+                    # find url
+                    yield cursor.execute(f"SELECT url FROM url WHERE id = { url_id }")
                     url = cursor.fetchone()
                     if url:
+                        # Add url.visits
+                        yield cursor.execute(f"UPDATE url SET visits = visits + 1 WHERE id = { url_id }")
+                        yield cursor.execute(f"INSERT INTO record (url_id, client_ip) "
+                                             f"VALUES ({ url_id }, '{ client_ip }')")
+                        yield conn.commit()
                         self.redirect(url[0], permanent=True)
                     else:
                         self.send_error(404)
